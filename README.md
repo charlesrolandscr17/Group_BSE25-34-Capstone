@@ -41,6 +41,7 @@ Internet access (for scraping data from the online stores)
 # 5.Install Dependencies: Install the required Python packages, including Django:
     pip install -r requirements.txt
 # 6.Run Database Migrations: Apply Django migrations to set up the database.
+    python manage.py migrate
 # 7.Run the Development Server: Start the Django development server.
     python manage.py runserver
 # 8.Access the App: Open your browser and go to http://localhost:8000 to view the app.
