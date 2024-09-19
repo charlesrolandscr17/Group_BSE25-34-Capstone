@@ -30,10 +30,17 @@ Internet access (for scraping data from the online stores)
 # 2.Navigate to the Project Directory:
     cd your-repo-name
 
-# 3.Install Dependencies: Run the following command to install necessary packages:
-    npm install
+# 3.Create a Virtual Environment: Set up a virtual environment to manage your project dependencies.
+    python -m venv venv
 
-# 4.Run the Application: To run the backend scraping server and frontend app:
-    npm start
+# 4.Activate the Virtual Environment: On macOS and Linux:
+    source venv/bin/activate
+# On Windows:
+    venv\Scripts\activate
 
-# 5.Access the App: Open your browser and go to http://localhost:3000 to view the app.
+# 5.Install Dependencies: Install the required Python packages, including Django:
+    pip install -r requirements.txt
+# 6.Run Database Migrations: Apply Django migrations to set up the database.
+# 7.Run the Development Server: Start the Django development server.
+    python manage.py runserver
+# 8.Access the App: Open your browser and go to http://localhost:8000 to view the app.
