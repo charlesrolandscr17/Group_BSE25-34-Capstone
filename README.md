@@ -1,7 +1,9 @@
 # Group_BSE25-34-Capstone
 # Price Aggregator Web App
-This web app allows users to search for products (e.g., laptops, phones, etc.) and retrieves prices from multiple online stores such as Amazon, Jumia, and eBay.
+This web app allows users to search for products (e.g., laptops, phones, etc.) and retrieves prices from multiple online stores such as Amazon, Jumia, and eBay among others.
+
 The app scrapes data from these stores in real-time and returns a list of the top-x cheapest products for the user’s search. 
+
 This makes it easy for users to find the best deals across different platforms without manually browsing each one.
 
 # Features:
