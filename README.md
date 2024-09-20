@@ -16,7 +16,7 @@ Single-page frontend: Simple UI to display results and their details.
 Installation
 
 # Prerequisites:
-Node.js installed (for running the frontend/backend)
+Python installed (for running the frontend/backend)
 
 Git installed (for cloning the repository)
 
