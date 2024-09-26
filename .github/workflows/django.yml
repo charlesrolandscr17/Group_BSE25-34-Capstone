@@ -31,6 +31,10 @@ jobs:
         python manage.py migrate
         python manage.py collectstatic --no-input
 
+    - name: Collect static files
+      run: |
+          python manage.py collectstatic --no-input
+
     - name: Run tests
       run: |
         python manage.py test
