@@ -38,8 +38,13 @@ jobs:
     - name: Run tests
       run: |
         python3 manage.py test
+    
+    - name: Fix lint errors
+      run: |
+        pip3 install autopep8
+        autopep8 --in-place --aggressive --aggressive $(find . -name "*.py")
 
     - name: Check for lint errors
       run: |
-        pip3 install flake8
+        pip3 install --upgrade flake8 pycodestyle
         flake8 .

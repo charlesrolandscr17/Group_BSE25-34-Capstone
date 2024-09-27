@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Group_BSE25_34_Capstone.settings')
+os.environ.setdefault(
+    'DJANGO_SETTINGS_MODULE',
+    'Group_BSE25_34_Capstone.settings')
 
 application = get_wsgi_application()
