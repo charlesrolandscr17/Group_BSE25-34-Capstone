@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from price_aggregator.views import ProductListView 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('price_aggregator/', include('price_aggregator.urls')),
+    path('', ProductListView.as_view(), name='home'),  # Root URL redirects to product list
 ]
