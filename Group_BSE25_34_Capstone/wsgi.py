@@ -12,7 +12,7 @@ import sys
 
 from django.core.wsgi import get_wsgi_application
 
-project_home = '/home/iWafula/Capstone'
+project_home = '/home/iWafula/Group_BSE25_34_Capstone/'
 if project_home not in sys.path:
     sys.path.append(project_home)
 
