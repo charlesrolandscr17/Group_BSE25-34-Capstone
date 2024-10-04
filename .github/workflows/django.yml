@@ -63,6 +63,6 @@ jobs:
           PA_USERNAME: ${{ secrets.PA_USERNAME }}
           PA_API_TOKEN: ${{ secrets.PA_API_TOKEN }}
         run: |
-          curl -s --user $PA_USERNAME:$PA_API_TOKEN https://www.pythonanywhere.com/api/v0/user/$PA_USERNAME/webapps/Capstone/Group_BSE25-34-Capstone/reload/
+          curl -s --user $PA_USERNAME:$PA_API_TOKEN https://www.pythonanywhere.com/api/v0/user/$PA_USERNAME/webapps/Group_BSE25-34-Capstone/reload/
           # Add any additional commands if needed for your staging environment
 
