@@ -16,7 +16,7 @@ Single-page frontend: Simple UI to display results and their details.
 Installation
 
 # Prerequisites:
-Node.js installed (for running the frontend/backend)
+Python installed (for running the frontend/backend)
 
 Git installed (for cloning the repository)
 
@@ -25,10 +25,9 @@ Internet access (for scraping data from the online stores)
 # Steps to Install:
 
 # 1.Clone the Repository:
-    git clone https://github.com/your-username/your-repo-name.git
-
+    git clone https://github.com/charlesrolandscr17/Group_BSE25-34-Capstone.git
 # 2.Navigate to the Project Directory:
-    cd your-repo-name
+    cd Group_BSE25-34-Capstone
 
 # 3.Create a Virtual Environment: Set up a virtual environment to manage your project dependencies.
     python -m venv venv
