@@ -17,3 +17,9 @@ build/
 *.so
 *.egg
 *.egg-info
+
+*.pyc
+__pycache__/
+db.sqlite3
+/media/
+/static/
