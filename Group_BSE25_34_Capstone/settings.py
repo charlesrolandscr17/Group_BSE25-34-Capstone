@@ -28,7 +28,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['iwafula.pythonanywhere.com/']
+ALLOWED_HOSTS = ['iwafula.pythonanywhere.com/','13.53.174.244','localhost']
 
 
 # Application definition
