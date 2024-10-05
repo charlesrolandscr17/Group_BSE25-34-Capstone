@@ -61,7 +61,7 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
       run: |
         # Make sure the private key is saved and permissions are restricted
-        echo "$SSH_PRIVATE_KEY" > ~/ec2-key.pem
+        echo "$SSH_PRIVATE_KEY" | sed 's/\\n/\n/g' > ~/ec2-key.pem
         chmod 600 ~/ec2-key.pem
 
         # Connect to EC2 and deploy your project
