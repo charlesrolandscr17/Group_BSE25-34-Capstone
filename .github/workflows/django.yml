@@ -15,11 +15,14 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        node-version: '20'  # Force use of Node.js 20
 
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
         python-version: '3.9'
+        node-version: '20'  # Force use of Node.js 20
 
     - name: Install dependencies
       run: |
@@ -53,6 +56,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        node-version: '20'  # Force use of Node.js 20
 
     - name: Set up SSH key
       run: |
@@ -73,9 +78,3 @@ jobs:
           python manage.py collectstatic --no-input
           sudo systemctl restart your_web_service
         EOF
-
-
-    
-          
-
-      
