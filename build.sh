@@ -10,3 +10,14 @@ python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
 python manage.py migrate
+
+# Run tests
+python manage.py test
+
+# Fix lint errors
+pip install autopep8
+autopep8 --in-place --aggressive --aggressive $(find . -name "*.py")
+
+# Check for lint errors
+pip install --upgrade flake8 pycodestyle
+flake8 .
