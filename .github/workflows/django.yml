@@ -1,4 +1,4 @@
-name: Django CI
+name: Django CI/CD
 
 on:
   push:
@@ -31,14 +31,10 @@ jobs:
         python3 manage.py migrate
         python3 manage.py collectstatic --no-input
 
-    - name: Collect static files
-      run: |
-          python3 manage.py collectstatic --no-input
-
     - name: Run tests
       run: |
         python3 manage.py test
-    
+
     - name: Fix lint errors
       run: |
         pip3 install autopep8
@@ -50,27 +46,36 @@ jobs:
         flake8 .
 
   deploy-staging:
-      runs-on: ubuntu-latest
-      needs: build
-      if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
 
-      steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Deploy to Staging on PythonAnywhere
-        env:
-          PA_USERNAME: ${{ secrets.PA_USERNAME }}
-          PA_API_TOKEN: ${{ secrets.PA_API_TOKEN }}
-        run: |
-          curl -s --user $PA_USERNAME:$PA_API_TOKEN https://www.pythonanywhere.com/api/v0/user/$PA_USERNAME/webapps/Group_BSE25-34-Capstone/reload/
+    - name: Deploy to AWS EC2
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      run: |
+        # Make sure the private key is saved and permissions are restricted
+        echo "$SSH_PRIVATE_KEY" > ~/ec2-key.pem
+        chmod 600 ~/ec2-key.pem
+
+        # Connect to EC2 and deploy your project
+        ssh -i ~/Downloads/bse25-34.pem ec2-user@13.53.174.244 << 'EOF'
+          cd /home/ec2-user/Group_BSE25-34-Capstone
+          git pull origin main
+          source django-env/bin/activate
+          pip install -r requirements.txt
+          python manage.py migrate
+          python manage.py collectstatic --no-input
+          sudo systemctl restart your web service
+        EOF
+
+    
           
-      - name: Reload PythonAnywhere app
-        env:
-          PA_USERNAME: ${{ secrets.PA_USERNAME }}
-          PA_API_TOKEN: ${{ secrets.PA_API_TOKEN }}
-        run: |
-          curl -X POST https://www.pythonanywhere.com/api/v0/user/$PA_USERNAME/webapps/Group_BSE25-34-Capstone/reload/ \
-          -H "Authorization: Token $PA_API_TOKEN"
 
       
