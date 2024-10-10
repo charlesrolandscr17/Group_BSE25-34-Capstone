@@ -15,8 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from price_aggregator.views import ProductListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('price_aggregator/', include('price_aggregator.urls')),
+    # Root URL redirects to product list
+    path('', ProductListView.as_view(), name='home'),
 ]

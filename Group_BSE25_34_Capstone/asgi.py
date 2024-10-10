@@ -11,6 +11,8 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Group_BSE25_34_Capstone.settings')
+os.environ.setdefault(
+    'DJANGO_SETTINGS_MODULE',
+    'Group_BSE25_34_Capstone.settings')
 
 application = get_asgi_application()
