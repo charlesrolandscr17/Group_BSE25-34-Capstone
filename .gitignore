@@ -2,6 +2,9 @@
 __pycache__/
 *.pyc
 *.pyo
+db.sqlite3
+/media/
+/static/
 
 # Ignore Django cache files
 *.sqlite3
@@ -17,9 +20,3 @@ build/
 *.so
 *.egg
 *.egg-info
-
-*.pyc
-__pycache__/
-db.sqlite3
-/media/
-/static/
