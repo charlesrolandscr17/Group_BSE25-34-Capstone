@@ -10,7 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 print("Starting...")
 
-# os.environ["MOZ_HEADLESS"] = "1"
+os.environ["MOZ_HEADLESS"] = "1"
 
 driver = webdriver.Firefox()
 
