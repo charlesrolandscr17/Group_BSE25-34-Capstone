@@ -1,12 +1,9 @@
-import traceback
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import time, requests, selenium
+import time, requests
 from bs4 import BeautifulSoup
 import os
-
-from selenium.webdriver.common.action_chains import ActionChains
 
 print("Starting...")
 
