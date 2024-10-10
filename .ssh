@@ -1,0 +1,5 @@
+- name: Set up SSH key
+  run: |
+    mkdir -p ~/.ssh  # Create the .ssh directory if it doesn't exist
+    echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/ec2-key.pem
+    chmod 600 ~/.ssh/ec2-key.pem
