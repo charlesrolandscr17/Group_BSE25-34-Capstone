@@ -43,4 +43,4 @@ Internet access (for scraping data from the online stores)
     python manage.py migrate
 # 7.Run the Development Server: Start the Django development server.
     python manage.py runserver
-# 8.Access the App: Open your browser and go to http://localhost:8000 to view the app.
+# 8.Access the App: Open your browser and go to [http://localhost:8000](https://group-bse25-34-capstone-eaas.onrender.com) to view the app.
