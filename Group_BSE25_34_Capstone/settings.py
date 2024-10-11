@@ -28,7 +28,8 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.53.174.244','localhost', 'https://group-bse25-34-capstone.onrender.com', '*']
+ALLOWED_HOSTS = ['13.53.174.244', 'localhost',
+                 'https://group-bse25-34-capstone.onrender.com', '*']
 
 
 # Application definition
@@ -137,8 +138,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-
 
 
 # Default primary key field type

@@ -5,8 +5,8 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-import time, requests
+import time
+import requests
 from bs4 import BeautifulSoup
 import os
 
@@ -28,7 +28,7 @@ def amazon_list(search):
     try:
         search_bar = driver.find_element(By.ID, "twotabsearchtextbox")
 
-    except:
+    except BaseException:
         search_bar = driver.find_element(By.ID, "nav-bb-search")
 
     search_bar.send_keys(search)
@@ -45,7 +45,6 @@ def amazon_list(search):
     print(len(data))
 
 
-
 def check_all_results(web_elements, search_term):
     print("start")
     data = []
@@ -59,7 +58,7 @@ def check_all_results(web_elements, search_term):
             price = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located(web_element.find_element(
                     By.CLASS_NAME, "a-price-whole")))
-        except Exception as e :
+        except Exception as e:
             print(f"Error retrieving image or price: {e}")
             # traceback.print_exc()
             continue
@@ -71,39 +70,35 @@ def check_all_results(web_elements, search_term):
 
         link = el.get_attribute("href")
 
-
         try:
             response = requests.get(link)
             soup = BeautifulSoup(response.text, 'html.parser')
-            title = soup.find("span", id = "productTitle").getText()
+            title = soup.find("span", id="productTitle").getText()
 
         except AttributeError:
             print("Title not found")
             continue
-        
+
         except Exception as e:
             print(f"Error fetching product page: {e}")
             continue
 
         # if search_term.lower() in title.lower():
         #     print("found product")
-            
 
-        links_dict = {"image": image_link, 
-                      "link": link, 
-                      "price": price.text, 
+        links_dict = {"image": image_link,
+                      "link": link,
+                      "price": price.text,
                       "title": title
                       }
 
         data.append(links_dict)
-        
+
     if data:
-        data.pop(0)    
+        data.pop(0)
     else:
         print("Warning: 'data' is empty; nothing to pop.")
     return data
-        
-    
 
 
-#amazon_list("Samsung galaxy S23 phone")
+# amazon_list("Samsung galaxy S23 phone")

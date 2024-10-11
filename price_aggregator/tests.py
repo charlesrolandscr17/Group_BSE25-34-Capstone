@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 from .models import Product
 from decimal import Decimal
+from price_aggregator.helpers.scraper import amazon_list
+
 
 
 # Test case for Product model and views
@@ -76,3 +78,6 @@ class ProductViewTest(TestCase):
                 'product_detail',
                 args=[10]))  # Assuming 10 does not exist
         self.assertEqual(response.status_code, 404)
+        
+#Testing the scraper
+amazon_list("Samsung galaxy S23 phone")
