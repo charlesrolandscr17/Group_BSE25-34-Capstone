@@ -24,6 +24,17 @@ jobs:
         python-version: '3.9'
         node-version: '20'  # Force use of Node.js 20
 
+    - name: Install geckodriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y firefox
+        sudo apt-get install -y wget
+        GECKODRIVER_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r .tag_name)
+        wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz
+        tar -xzf geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz
+        sudo mv geckodriver /usr/local/bin/
+        sudo chmod +x /usr/local/bin/geckodriver
+
     - name: Install dependencies
       run: |
         pip install --upgrade pip
