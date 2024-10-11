@@ -1,15 +1,23 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 import time, requests
 from bs4 import BeautifulSoup
 import os
 
 print("Starting...")
 
+options = Options()
 os.environ["MOZ_HEADLESS"] = "1"
+geckodriver_binary = "/snap/bin/geckodriver"
+service = Service(geckodriver_binary)
 
-driver = webdriver.Firefox()
+driver = webdriver.Firefox(service=service, options=options)
 
 
 def amazon_list(search):
@@ -44,11 +52,15 @@ def check_all_results(web_elements, search_term):
 
     for web_element in web_elements:
         try:
-            image_element = web_element.find_element(By.CLASS_NAME, "s-image")
+            image_element = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located(web_element.find_element(
+                    By.CLASS_NAME, "s-image")))
             image_link = image_element.get_attribute("src")
-            price = web_element.find_element(By.CLASS_NAME, "a-price-whole")
-        except :
-            print("error")
+            price = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located(web_element.find_element(
+                    By.CLASS_NAME, "a-price-whole")))
+        except Exception as e :
+            print(f"Error retrieving image or price: {e}")
             # traceback.print_exc()
             continue
 
@@ -59,31 +71,39 @@ def check_all_results(web_elements, search_term):
 
         link = el.get_attribute("href")
 
-        response = requests.get(link)
-
-        soup = BeautifulSoup(response.text, 'html.parser')
 
         try:
-
+            response = requests.get(link)
+            soup = BeautifulSoup(response.text, 'html.parser')
             title = soup.find("span", id = "productTitle").getText()
 
         except AttributeError:
             print("Title not found")
+            continue
+        
+        except Exception as e:
+            print(f"Error fetching product page: {e}")
             continue
 
         # if search_term.lower() in title.lower():
         #     print("found product")
             
 
-        links_dict = {"image": image_link, "link": link, "price": price.text, "title": title}
+        links_dict = {"image": image_link, 
+                      "link": link, 
+                      "price": price.text, 
+                      "title": title
+                      }
 
         data.append(links_dict)
         
-        
-    data.pop(0)
+    if data:
+        data.pop(0)    
+    else:
+        print("Warning: 'data' is empty; nothing to pop.")
     return data
         
     
 
 
-amazon_list("Samsung galaxy S23 phone")
+#amazon_list("Samsung galaxy S23 phone")

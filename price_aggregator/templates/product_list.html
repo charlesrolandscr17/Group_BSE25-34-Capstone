@@ -27,10 +27,11 @@
             </li>
            </ul>
           <!-- Search form -->
-          <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'product_list' %}">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search for a product" aria-label="Search">
+         <form class="form-inline my-2 my-lg-0" id='searchForm' method="POST" action="{% url 'product_list' %}">
+          {% csrf_token %}
+            <input class="form-control mr-sm-2" type="text" name="query" value="{{ query }}" placeholder="Search for a product" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+        </form>
         </div>
       </nav>
 
@@ -45,5 +46,48 @@
                 <li>No products found. Search for them</li>
             {% endif %}
         </ul>
+        <script>
+          $(document).ready(function() {
+            $('#searchForm').submit(function(event) {
+                event.preventDefault(); // Prevent the default form submission
+        
+                var query = $('input[name="query"]').val(); // Get the search query
+                var csrftoken = getCookie('csrftoken'); // Function to get CSRF token from cookies
+        
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "product_list" %}',
+                    data: {
+                        'query': query,
+                        'csrfmiddlewaretoken': csrftoken // Include CSRF token
+                    },
+                    success: function(response) {
+                        // Handle successful response
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        
+            // Function to get CSRF token from cookies
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        // Check if this cookie string begins with the name we want
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+        
+        </script>
 </body>
 </html>

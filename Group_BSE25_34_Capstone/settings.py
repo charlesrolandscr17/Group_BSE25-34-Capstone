@@ -26,7 +26,7 @@ SECRET_KEY = (
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['13.53.174.244','localhost', 'https://group-bse25-34-capstone.onrender.com', '*']
 
