@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,10 +15,9 @@ print("Starting...")
 
 options = Options()
 os.environ["MOZ_HEADLESS"] = "1"
-geckodriver_binary = "/snap/bin/geckodriver"
-service = Service(geckodriver_binary)
 
-driver = webdriver.Firefox(service=service, options=options)
+driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
+driver.set_page_load_timeout(30) 
 
 
 def amazon_list(search):
@@ -41,8 +41,10 @@ def amazon_list(search):
 
     data = check_all_results(results, search_term=search)
 
-    print(data)
-    print(len(data))
+    #print(data)
+    #print(len(data))
+    
+    return data
 
 
 def check_all_results(web_elements, search_term):
@@ -53,11 +55,11 @@ def check_all_results(web_elements, search_term):
         try:
             image_element = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located(web_element.find_element(
-                    By.CLASS_NAME, ".s-image")))
+                    By.CLASS_NAME, "s-image")))
             image_link = image_element.get_attribute("src")
             price = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located(web_element.find_element(
-                    By.CLASS_NAME, ".a-price-whole")))
+                    By.CLASS_NAME, "a-price-whole")))
         except Exception as e:
             print(f"Error retrieving image or price: {e}")
             # traceback.print_exc()
