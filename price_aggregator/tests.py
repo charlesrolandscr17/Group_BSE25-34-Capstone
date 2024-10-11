@@ -80,4 +80,4 @@ class ProductViewTest(TestCase):
         self.assertEqual(response.status_code, 404)
         
 #Testing the scraper
-amazon_list("Samsung galaxy S23 phone")
+#amazon_list("Samsung galaxy S23 phone")
