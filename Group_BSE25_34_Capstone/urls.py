@@ -23,4 +23,5 @@ urlpatterns = [
     path('price_aggregator/', include('price_aggregator.urls')),
     # Root URL redirects to product list
     path('', ProductListView.as_view(), name='home'),
+    path('',include('django_prometheus.urls')),
 ]

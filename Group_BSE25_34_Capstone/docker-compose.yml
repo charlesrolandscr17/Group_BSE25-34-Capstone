@@ -1,0 +1,17 @@
+
+version: '3.8'  # Optional version specification
+services:
+  price_aggregator:
+    container_name: price_aggregator
+    build:
+      context: .                         # Current directory as context
+      dockerfile: Dockerfile              # Name of the Dockerfile
+    ports:
+      - "8000:8000"                      # Mapping host port to container port
+   # command: python manage.py runserver 0.0.0.0:8000  # Command to run your app
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/   # Volume mapping for Prometheus
+    ports:
+      - "9090:9090"                      # Mapping host port to container port
