@@ -15,36 +15,35 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        node-version: '20'  # Force use of Node.js 20
 
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
         python-version: '3.9'
+        node-version: '20'  # Force use of Node.js 20
 
     - name: Install dependencies
       run: |
-        pip3 install --upgrade pip
-        pip3 install -r requirements.txt
+        pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Set up Django environment
       run: |
-        python3 manage.py migrate
-        python3 manage.py collectstatic --no-input
-
-    - name: Collect static files
-      run: |
-          python3 manage.py collectstatic --no-input
+        python manage.py migrate
+        python manage.py collectstatic --no-input
 
     - name: Run tests
       run: |
-        python3 manage.py test
-    
+        python manage.py test
+
     - name: Fix lint errors
       run: |
-        pip3 install autopep8
+        pip install autopep8
         autopep8 --in-place --aggressive --aggressive $(find . -name "*.py")
 
     - name: Check for lint errors
       run: |
-        pip3 install --upgrade flake8 pycodestyle
+        pip install --upgrade flake8 pycodestyle
         flake8 .
