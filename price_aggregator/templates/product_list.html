@@ -6,47 +6,116 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product List</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Capstone</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <style>
+    .loader-box {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      background: #0d6efd;
+    }
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Products Listing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Product Description</a>
-        </li>
-      </ul>
-      <!-- Search form -->
-      <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'product_list' %}">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search for a product" name="query" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    #loader {
+      animation: animate 1.5s linear infinite;
+      clip: rect(0, 80px, 80px, 40px);
+      height: 80px;
+      width: 80px;
+      position: absolute;
+      left: calc(50% - 40px);
+      top: calc(50% - 40px);
+    }
+
+    @keyframes animate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(220deg);
+      }
+    }
+
+    #loader:after {
+      animation: animate2 1.5s ease-in-out infinite;
+      clip: rect(0, 80px, 80px, 40px);
+      content: "";
+      border-radius: 50%;
+      height: 80px;
+      width: 80px;
+      position: absolute;
+    }
+
+    @keyframes animate2 {
+      0% {
+        box-shadow: inset #fff 0 0 0 17px;
+        transform: rotate(-140deg);
+      }
+
+      50% {
+        box-shadow: inset #fff 0 0 0 2px;
+      }
+
+      100% {
+        box-shadow: inset #fff 0 0 0 17px;
+        transform: rotate(140deg);
+      }
+    }
+  </style>
+  <!-- <div class="loader-box">
+    <div id="loader"></div>
+  </div> -->
+  <div>
+    <nav class="flex items-center justify-between p-6 bg-gray-800">
+      <div class="flex items-center">
+        <a class="text-white hover:text-gray-400" href="#">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6h18M3 16h18M16 3v18H3V3z" />
+          </svg>
+        </a>
+        <a class="text-xl font-bold text-white ml-4" href="#">
+          Product List
+        </a>
+      </div>
+    </nav>
+  </div>
+  <div class="flex flex-col justify-center items-center w-full p-6">
+    <div class="w-1/2">
+      <form action="" method="get">
+        <div class="flex items-center justify-between">
+          <input
+            class="appearance-none border rounded w-full py-2 px-3 mx-2 text-gray-700 leading-tight focus:outline-none"
+            type="text" placeholder="Search for products" name="search">
+          <button class="flex-shrink-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+            Search
+          </button>
+        </div>
       </form>
+      <div class="products flex flex-col">
+        {% for product in products %}
+        <a href={{ product.url }}>
+          <div class="product-card p-4 bg-white rounded-lg shadow-md my-4">
+            <h2 class="text-xl font-bold mb-2">{{ product.title }}</h2>
+            <p class="text-gray-600">Source: {{ product.source }}</p>
+            <p class="text-gray-500 text-sm">Price: {{ product.price }}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
     </div>
-  </nav>
 
-  <ul style="list-style-type: none;">
-    {% if products %}
-    {% for product in products %}
-    <li>
-      <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a> - {{ product.price }}
-    </li>
-    {% endfor %}
-    {% else %}
-    <li>No products found. Search for them</li>
-    {% endif %}
-  </ul>
+  </div>
+
+  <script>
+    $(window).on('load', function () {
+      $('.loader-box').fadeOut(5)
+    })
+  </script>
 </body>
 
 </html>
