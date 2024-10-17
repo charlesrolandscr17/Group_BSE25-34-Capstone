@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from price_aggregator.helpers.scraper import amazon_list
-import requests, bs4
+import requests
+import bs4
 # Create your views here
 
 
