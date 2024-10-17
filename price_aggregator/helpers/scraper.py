@@ -1,23 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time
-import requests
+import time, requests
 from bs4 import BeautifulSoup
 import os
 
 print("Starting...")
 
-options = Options()
 os.environ["MOZ_HEADLESS"] = "1"
 
-driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
-driver.set_page_load_timeout(30) 
+driver = webdriver.Firefox()
 
 
 def amazon_list(search):
@@ -28,7 +20,7 @@ def amazon_list(search):
     try:
         search_bar = driver.find_element(By.ID, "twotabsearchtextbox")
 
-    except BaseException:
+    except:
         search_bar = driver.find_element(By.ID, "nav-bb-search")
 
     search_bar.send_keys(search)
@@ -41,10 +33,9 @@ def amazon_list(search):
 
     data = check_all_results(results, search_term=search)
 
-    #print(data)
-    #print(len(data))
-    
-    return data
+    print(data)
+    print(len(data))
+
 
 
 def check_all_results(web_elements, search_term):
@@ -53,15 +44,11 @@ def check_all_results(web_elements, search_term):
 
     for web_element in web_elements:
         try:
-            image_element = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located(web_element.find_element(
-                    By.CLASS_NAME, "s-image")))
+            image_element = web_element.find_element(By.CLASS_NAME, "s-image")
             image_link = image_element.get_attribute("src")
-            price = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located(web_element.find_element(
-                    By.CLASS_NAME, "a-price-whole")))
-        except Exception as e:
-            print(f"Error retrieving image or price: {e}")
+            price = web_element.find_element(By.CLASS_NAME, "a-price-whole")
+        except :
+            print("error")
             # traceback.print_exc()
             continue
 
@@ -72,35 +59,31 @@ def check_all_results(web_elements, search_term):
 
         link = el.get_attribute("href")
 
+        response = requests.get(link)
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
         try:
-            response = requests.get(link)
-            soup = BeautifulSoup(response.text, 'html.parser')
-            title = soup.find("span", id="productTitle").getText()
+
+            title = soup.find("span", id = "productTitle").getText()
 
         except AttributeError:
             print("Title not found")
             continue
 
-        except Exception as e:
-            print(f"Error fetching product page: {e}")
-            continue
-
         # if search_term.lower() in title.lower():
         #     print("found product")
+            
 
-        links_dict = {"image": image_link,
-                      "link": link,
-                      "price": price.text,
-                      "title": title
-                      }
+        links_dict = {"image": image_link, "link": link, "price": price.text, "title": title}
 
         data.append(links_dict)
-
-    if data:
-        data.pop(0)
-    else:
-        print("Warning: 'data' is empty; nothing to pop.")
+        
+        
+    data.pop(0)
     return data
+        
+    
 
 
-# amazon_list("Samsung galaxy S23 phone")
+amazon_list("Samsung galaxy S23 phone")
