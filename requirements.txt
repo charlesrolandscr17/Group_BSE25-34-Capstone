@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-django == 4.2.16
-gunicorn == 23.0.0
-whitenoise == 6.7.0
-selenium == 4.25.0 
-requests == 2.32.3
-beautifulsoup4 == 4.12.3 
-django-prometheus==2.3.0
-=======
+
 asgiref==3.8.1
 attrs==24.2.0
 beautifulsoup4==4.12.3
@@ -39,4 +31,3 @@ webdriver-manager==4.0.2
 websocket-client==1.8.0
 whitenoise==6.7.0
 wsproto==1.2.0
->>>>>>> main

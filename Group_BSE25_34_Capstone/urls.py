@@ -22,10 +22,7 @@ from price_aggregator.views import product_list
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Root URL redirects to product list
-<<<<<<< HEAD
-    path('', ProductListView.as_view(), name='home'),
-=======
+    #path('', ProductListView.as_view(), name='home'),
     path("", product_list, name="home"),
->>>>>>> main
     path('',include('django_prometheus.urls')),
 ]
