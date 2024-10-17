@@ -1,0 +1,7 @@
+django == 4.2.16
+gunicorn == 23.0.0
+whitenoise == 6.7.0
+selenium == 4.25.0 
+requests == 2.32.3
+beautifulsoup4 == 4.12.3 
+django-prometheus==2.3.0

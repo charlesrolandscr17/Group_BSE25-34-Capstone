@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s  # Scrape every 15 seconds
+  evaluation_interval: 15s  # Evaluate rules every 15 seconds
+
+scrape_configs:
+  - job_name: 'price_aggregator'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - price_aggregator:8000  # Target your Django application
+          # Add the external URL if needed, but this may not be necessary
+          - group-bse25-34-capstone-eaas.onrender.com
