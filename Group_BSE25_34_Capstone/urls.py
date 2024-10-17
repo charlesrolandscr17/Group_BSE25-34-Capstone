@@ -16,11 +16,12 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from price_aggregator.views import product_list
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Root URL redirects to product list
     path("", product_list, name="home"),
+    path('',include('django_prometheus.urls')),
 ]

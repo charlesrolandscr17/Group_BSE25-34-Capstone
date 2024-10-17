@@ -1,0 +1,21 @@
+services:
+  price_aggregator:
+    container_name: price_aggregator
+    build:
+      context: .  # Use the current directory as context if Dockerfile is in the same folder
+      dockerfile: Dockerfile  # Path to your Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app  # Mount the current directory to '/app' in the container
+    working_dir: /app  # Set the working directory inside the container
+    command: python manage.py runserver 0.0.0.0:8000
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml  # Mount Prometheus config file
+    ports:
+      - "9090:9090"  # Map host port 9090 to container port 9090
+    depends_on:
+      - price_aggregator
