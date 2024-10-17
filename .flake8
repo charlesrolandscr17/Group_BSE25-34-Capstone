@@ -1,3 +1,4 @@
 [flake8]
-max-line-length = 80  # or your preferred maximum length
-ignore = E501           # if you want to ignore line length errors
+exclude = venv
+max-line-length = 100  # Adjust as needed
+ignore = E501  # Ignore line length errors if desired
