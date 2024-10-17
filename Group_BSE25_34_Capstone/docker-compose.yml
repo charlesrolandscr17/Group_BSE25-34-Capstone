@@ -1,17 +1,21 @@
-
-version: '3.8'  # Optional version specification
 services:
   price_aggregator:
     container_name: price_aggregator
     build:
-      context: .                         # Current directory as context
-      dockerfile: Dockerfile              # Name of the Dockerfile
+      context: ..  # Use the parent directory as context
+      dockerfile: ./Group_BSE25_34_Capstone/Dockerfile  # Path to your Dockerfile
     ports:
-      - "8000:8000"                      # Mapping host port to container port
-   # command: python manage.py runserver 0.0.0.0:8000  # Command to run your app
+      - "8000:8000"  # Map host port 8000 to container port 8000
+    volumes:
+      - ../:/app  # Mount the parent directory to '/app' in the container
+    working_dir: /app  # Set the working directory inside the container
+    command: python manage.py runserver 0.0.0.0:8000  # Run the Django development server
+
   prometheus:
     image: prom/prometheus
     volumes:
-      - ./prometheus/:/etc/prometheus/   # Volume mapping for Prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml  # Mount Prometheus config file
     ports:
-      - "9090:9090"                      # Mapping host port to container port
+      - "9090:9090"  # Map host port 9090 to container port 9090
+    depends_on:
+      - price_aggregator
