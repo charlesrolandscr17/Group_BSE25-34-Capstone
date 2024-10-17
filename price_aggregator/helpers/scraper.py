@@ -20,7 +20,9 @@ def amazon_list(search):
 
 
 def ebay_list(search):
-    url = "https://ebay-average-selling-price.p.rapidapi.com/findCompletedItems"
+    url = (
+        "https://ebay-average-selling-price.p.rapidapi.com/findCompletedItems"
+        )
 
     payload = {
         "keywords": search,
