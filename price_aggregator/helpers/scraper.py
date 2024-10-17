@@ -1,89 +1,47 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-import time, requests
-from bs4 import BeautifulSoup
-import os
-
-print("Starting...")
-
-os.environ["MOZ_HEADLESS"] = "1"
-
-driver = webdriver.Firefox()
+import requests
 
 
 def amazon_list(search):
-    driver.get("https://www.amazon.com/")
+    url = "https://amazon-merchant-data.p.rapidapi.com/search-products"
 
-    # search_bar = driver.find_element(By.ID, "twotabsearchtextbox")
+    querystring = {"term": search, "country": "us"}
 
-    try:
-        search_bar = driver.find_element(By.ID, "twotabsearchtextbox")
+    headers = {
+        "x-rapidapi-key": "1f80a503a5mshfe1fc74c6f7d90ep13625djsn7aff620569dd",
+        "x-rapidapi-host": "amazon-merchant-data.p.rapidapi.com",
+    }
 
-    except:
-        search_bar = driver.find_element(By.ID, "nav-bb-search")
+    response = requests.get(url, headers=headers, params=querystring)
 
-    search_bar.send_keys(search)
-
-    search_bar.send_keys(Keys.ENTER)
-
-    time.sleep(3)
-
-    results = driver.find_elements(By.CLASS_NAME, "s-result-item")
-
-    data = check_all_results(results, search_term=search)
-
-    print(data)
-    print(len(data))
+    return response.json()
 
 
+# amazon_list("Samsung galaxy S23")
 
-def check_all_results(web_elements, search_term):
-    print("start")
-    data = []
 
-    for web_element in web_elements:
-        try:
-            image_element = web_element.find_element(By.CLASS_NAME, "s-image")
-            image_link = image_element.get_attribute("src")
-            price = web_element.find_element(By.CLASS_NAME, "a-price-whole")
-        except :
-            print("error")
-            # traceback.print_exc()
-            continue
-
-        el = web_element.find_element(
-            By.TAG_NAME,
-            "a",
+def ebay_list(search):
+    url = (
+        "https://ebay-average-selling-price.p.rapidapi.com/findCompletedItems"
         )
 
-        link = el.get_attribute("href")
+    payload = {
+        "keywords": search,
+        "excluded_keywords": "locked cracked case box read LCD",
+        "max_search_results": "60",
+        "remove_outliers": "true",
+        "aspects": [
+            {"name": "Model", "value": search},
+        ],
+    }
+    headers = {
+        "x-rapidapi-key": "1f80a503a5mshfe1fc74c6f7d90ep13625djsn7aff620569dd",
+        "x-rapidapi-host": "ebay-average-selling-price.p.rapidapi.com",
+        "Content-Type": "application/json",
+    }
 
-        response = requests.get(link)
+    response = requests.post(url, json=payload, headers=headers)
 
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        try:
-
-            title = soup.find("span", id = "productTitle").getText()
-
-        except AttributeError:
-            print("Title not found")
-            continue
-
-        # if search_term.lower() in title.lower():
-        #     print("found product")
-            
-
-        links_dict = {"image": image_link, "link": link, "price": price.text, "title": title}
-
-        data.append(links_dict)
-        
-        
-    data.pop(0)
-    return data
-        
-    
+    return response.json()
 
 
-amazon_list("Samsung galaxy S23 phone")
+# ebay_list("Samsung galaxy S23")
