@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from price_aggregator.helpers.scraper import amazon_list
+from price_aggregator.helpers.scraper import amazon_list, ebay_list
 import requests
 import bs4
 # Create your views here
@@ -10,56 +10,67 @@ def product_list(request):
     if bool(request.GET):
         query = request.GET["search"]  # Retrieve the search details
         products_1 = amazon_list(query)
-        # products_2 = ebay_list(query)
-        # print(products_2)
+        products_2 = ebay_list(query)
+        print(products_2)
 
         # print(products_2["products"][0])
         # print(products_1["content"]["offers"][5])
 
         products = []
 
-        for product in products_1["content"]["offers"]:
-            try:
-                response = requests.get(product["link"])
+        try:
+            for product in products_1["content"]["offers"]:
+                try:
+                    response = requests.get(product["link"])
 
-                soup = bs4.BeautifulSoup(response.text, "html.parser")
+                    soup = bs4.BeautifulSoup(response.text, "html.parser")
 
-                img = soup.find("img", id="landingImage").get("src")
+                    img = soup.find("img", id="landingImage").get("src")
 
-                products.append(
-                    {
-                        "title": product["name"],
-                        "price": product["price"],
-                        "url": product["link"],
-                        "img": img,
-                        "source": "Amazon",
-                    }
-                )
-                print("done")
-            except Exception as e:
-                print(f"Error: {e}")
+                    products.append(
+                        {
+                            "title": product["name"],
+                            "price": product["price"],
+                            "url": product["link"],
+                            "img": img,
+                            "source": "Amazon",
+                        }
+                    )
+                    print("done")
+                except Exception as e:
+                    print(f"Error: {e}")
 
-            if len(products) >= 4:
-                break
+                if len(products) >= 4:
+                    break
 
-        # print("ebay")
-        # for product in products_2["products"]:
-        #     print("start")
-        #     try:
-        #         products.append(
-        #             {
-        #                 "title": product["name"],
-        #                 "price": product["sale_price"],
-        #                 "url": product["link"],
-        #                 "img": product["image_url"],
-        #                 "source": "Ebay",
-        #             }
-        #         )
-        #     except Exception as e:
-        #         print(f"Error: {e}")
+            print("ebay")
+            for product in products_2["products"]:
+                print("start")
+                try:
+                    products.append(
+                        {
+                            "title": product["name"],
+                            "price": product["sale_price"],
+                            "url": product["link"],
+                            "img": product["image_url"],
+                            "source": "Ebay",
+                        }
+                    )
+                except Exception as e:
+                    print(f"Error: {e}")
 
-        #     if len(products) >= 8:
-        #         break
+                if len(products) >= 8:
+                    break
+        except Exception:
+            return render(
+                request,
+                "product_list.html",
+                {
+                    "products": [],
+                    "error": "Error: An error occurred while fetching data.",
+                },
+            )
+            # print()
 
         return render(request, "product_list.html", {"products": products})
     return render(request, "product_list.html", {"products": []})

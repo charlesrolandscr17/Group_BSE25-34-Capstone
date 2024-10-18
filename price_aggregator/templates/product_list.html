@@ -96,6 +96,7 @@
           </button>
         </div>
       </form>
+      {% if product %}
       <div class="products flex flex-col">
         {% for product in products %}
         <a href={{ product.url }}>
@@ -107,7 +108,13 @@
         </a>
         {% endfor %}
       </div>
+      {% endif %}
     </div>
+    <p class="text-red-500 text-lg font-bold">
+      {%if error %}
+      {{ error }}....
+      {% endif %}
+    </p>
 
   </div>
 

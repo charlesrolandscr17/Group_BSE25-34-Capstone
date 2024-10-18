@@ -31,7 +31,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'group-bse25-34-capstone-eaas.onrender.com']
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -141,8 +140,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-
 
 
 # Default primary key field type
