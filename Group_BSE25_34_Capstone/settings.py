@@ -28,7 +28,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://group-bse25-34-capstone-eaas.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'group-bse25-34-capstone-eaas.onrender.com']
 
 
 
