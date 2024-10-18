@@ -28,7 +28,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'price_aggregator' , 'price_aggregation', '13.53.174.244', '0.0.0.0', 'group-bse25-34-capstone.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'price_aggregator', '13.53.174.244', '0.0.0.0', 'group-bse25-34-capstone.onrender.com','*']
 
 
 
